@@ -49,7 +49,7 @@ class Output:
       if m["poster_path"]:
         imgPath = os.path.join(self.posterBaseUrl, m["poster_path"].strip("/"))
         html.append(self._html("img", "poster of " + m["title"], link=imgPath))
-      html.append("</div>")
+      html.append("<br><hr><br>\n</div>")
     return "\n".join(html).encode('utf-8', 'ignore')
         
   def _html(self, tag, name, link=None):
