@@ -31,7 +31,9 @@ def cli():
   parser.add_option("-d", "--director", dest="director", help="filter on director")
   parser.add_option("-g", "--genres", dest="genres", help="filter on genres")
   parser.add_option("-l", "--listing", dest="listing", help="create email from themoviedb list URL")
+  parser.add_option("-m", "--mailres", dest="mailres", help="mail the html to recipients", action="store_true", default=False)
   parser.add_option("-n", "--numres", dest="numres", help="number of results")
+  parser.add_option("-p", "--printres", dest="printres", help="print the html", action="store_true", default=False)
   (opts, args) = parser.parse_args()
   if not opts.category:
     opts.category = DEFAULT_CAT
@@ -59,11 +61,13 @@ def main():
   movieObjects = ca.shelve_get_items(movies)
   op = Output(movieObjects)
   html = op.generate_html()
-  print html; sys.exit()
-  sender = get_value('sender')
-  recipients = load_emails('recipients')
-  ma = Mail(sender)
-  ma.mail_html(recipients, subject, html)
+  if opts.printres:
+    print html
+  if opts.mailres:
+    sender = get_value('sender')
+    recipients = load_emails('recipients')
+    ma = Mail(sender)
+    ma.mail_html(recipients, subject, html)
 
 if __name__ == "__main__":
   main() 
