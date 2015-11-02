@@ -51,7 +51,7 @@ def main():
   recipients = load_emails('recipients')
   ma = Mail(sender)
   subject = "%s movie alert" % opts.category.title().replace("_", " ")
-  ma.mail_html(recipients, subject, html.encode('utf-8', 'ignore'))
+  ma.mail_html(recipients, subject, html)
 
 if __name__ == "__main__":
   main() 
