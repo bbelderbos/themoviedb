@@ -35,6 +35,8 @@ def cli():
   parser.add_option("-n", "--numres", dest="numres", help="number of results")
   parser.add_option("-p", "--printres", dest="printres", help="print the html", action="store_true", default=False)
   (opts, args) = parser.parse_args()
+  if opts.actor or opts.director or opts.genres:
+    sys.exit("Filtering for actor / director / genres not yet implemented") # TODO
   if not opts.category:
     opts.category = DEFAULT_CAT
   if opts.category not in CATEGORIES:
