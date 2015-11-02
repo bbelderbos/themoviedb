@@ -46,6 +46,7 @@ def main():
   movieObjects = ca.shelve_get_items(movies)
   op = Output(movieObjects)
   html = op.generate_html()
+  print html; sys.exit()
   sender = get_value('sender')
   recipients = load_emails('recipients')
   ma = Mail(sender)
