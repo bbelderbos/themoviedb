@@ -23,17 +23,18 @@ class Cache:
       if d.has_key(m):
         print "shelve has already movie ID %s, skipping" % m
         continue
-      print "shelving new movie ID %s" % m
-      d[m] = tmdb.Movies(m).info()
-      requests += 1
-      if requests % 3 == 0:
-        print "3 requests passed, check time passed"
-        tPassed = self._time_passed()
-        print "time passed: %d" % tPassed
-        if tPassed < 1:
-          print "less than 1 second for 1 request, sleep 1 sec"
-          time.sleep(1)
-    print "done"
+      print "shelving info and credits for new movie ID %s" % m
+      info = tmdb.Movies(m).info()
+      credits = tmdb.Movies(m).credits()
+      d[m] = (info, credits)
+      requests += 2
+      tPassed = self._time_passed()
+      print "time passed: %d" % tPassed
+      if tPassed < 2:
+        print "less than 2 seconds for 2 requests (max 3 req per second)"
+        print "sleep 1 sec to make sure we don't hit the API request limit"
+        time.sleep(1)
+    print "\ndone shelving"
   
   def shelve_get_items(self, movieIds):
     """ as shelve is unordered, passing in a list of movie Ids to keep order (new to older) """

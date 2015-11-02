@@ -1,4 +1,8 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*- 
 import os 
+from pprint import pprint
+import sys
 
 class Output:
 
@@ -6,11 +10,27 @@ class Output:
     self.posterBaseUrl = "https://image.tmdb.org/t/p/w154" # w92
     self.imdbUrl = "http://imdb.com/title"
     self.smovieUrl = "http://sharemovi.es/?movieId="
+    self.sPersonUrl = "http://sharemovi.es/?personId="
     self.movies = movies
+    self.maxPersons = {
+      "actors" : 5,
+      "directors" : 1,
+    }
+
+  def _get_persons(self, cast, typePerson="actors"):
+    persons = []
+    # directors part of crew so need to filter out, cast object has only actors
+    if typePerson == "directors":
+      cast = [a for a in cast if a["department"].lower() == "directing"]
+    for i,c in enumerate(cast):
+      persons.append(self._html("a", c["name"], link=self.sPersonUrl+str(c["id"])))
+      if typePerson in self.maxPersons and (i+1) == self.maxPersons[typePerson]:
+        break
+    return persons
 
   def generate_html(self):
     html = []
-    for m in self.movies:
+    for m,c in self.movies:
       movieId = str(m["id"])
       genres = ", ".join([g["name"] for g in m["genres"]])
       imdbUrl = self._html("a", "imdb", link=os.path.join(self.imdbUrl, m["imdb_id"]))
@@ -19,6 +39,10 @@ class Output:
       html.append(self._html("h3", m["title"]))
       if genres:
         html.append(self._html("h4", "Genres: " + genres))
+      directors = ", ".join(self._get_persons(cast=c["crew"], typePerson="directors"))
+      actors = ", ".join(self._get_persons(cast=c["cast"], typePerson="actors"))
+      html.append(self._html("h4", "Director: " + directors))
+      html.append(self._html("h4", "Actors: " + actors))
       released = "Released: " + m["release_date"]
       html.append(self._html("h5", released + " (" + imdbUrl + " / " + smovieUrl + ")"))
       html.append(self._html("p", m["overview"]))
