@@ -1,4 +1,7 @@
 *swp
+*pyc
 experiment/*
 key
+sender
+recipients
 *.db
