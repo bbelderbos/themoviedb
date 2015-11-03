@@ -9,8 +9,9 @@ class Output:
   def __init__(self, movies):
     self.posterBaseUrl = "https://image.tmdb.org/t/p/w154" # w92
     self.imdbUrl = "http://imdb.com/title"
-    self.smovieUrl = "http://sharemovi.es/?movieId="
-    self.sPersonUrl = "http://sharemovi.es/?personId="
+    self.sMovies = "http://sharemovi.es"
+    self.sMovieUrl = "%s/?movieId=" % self.sMovies
+    self.sPersonUrl = "%s/?personId=" % self.sMovies
     self.movies = movies
     self.maxPersons = {
       "actors" : 5,
@@ -28,13 +29,20 @@ class Output:
         break
     return persons
 
-  def generate_html(self):
+  def generate_header(self):
+    banner = self._html("a", self._html("img", "%s banner" % self.sMovies, "%s/i/banner.jpg" % self.sMovies), link=self.sMovies)
+    return "<h1 style='background-color: #840015;color: #fff;'>%s</h1>" % banner
+
+  def generate_category_title(self, title):
+    return self._html("h2", title)
+
+  def generate_movie_html_div(self):
     html = []
     for m,c in self.movies:
       movieId = str(m["id"])
       genres = ", ".join([g["name"] for g in m["genres"]])
       imdbUrl = self._html("a", "imdb", link=os.path.join(self.imdbUrl, m["imdb_id"]))
-      smovieUrl = self._html("a", "sharemovi.es", link=self.smovieUrl+movieId)
+      sMovieUrl = self._html("a", "sharemovi.es", link=self.sMovieUrl+movieId)
       html.append("<div id='%s'>" % movieId)
       html.append(self._html("h3", m["title"]))
       if genres:
@@ -44,7 +52,7 @@ class Output:
       html.append(self._html("h4", "Director: " + directors))
       html.append(self._html("h4", "Actors: " + actors))
       released = "Released: " + m["release_date"]
-      html.append(self._html("h5", released + " (" + imdbUrl + " / " + smovieUrl + ")"))
+      html.append(self._html("h5", released + " (" + imdbUrl + " / " + sMovieUrl + ")"))
       html.append(self._html("p", m["overview"]))
       if m["poster_path"]:
         imgPath = os.path.join(self.posterBaseUrl, m["poster_path"].strip("/"))

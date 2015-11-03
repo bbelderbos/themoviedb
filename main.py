@@ -54,22 +54,25 @@ def main():
   if opts.listing:
     li = Listing(opts.category)
     movies = li.get_movies()
+    prefix = "list_"
     subject = "Week %s: %s" % (THIS_WEEK, li.title)
   else:
     movies = td.get_movies(opts.numres) 
+    prefix = ""
     subject = "%s movies - week %s" % (opts.category.title().replace("_", " "), THIS_WEEK)
-  ca = Cache("list_" + os.path.basename(opts.category))
+  ca = Cache(prefix + os.path.basename(opts.category))
   ca.shelve_results(movies)
   movieObjects = ca.shelve_get_items(movies)
   op = Output(movieObjects)
-  html = op.generate_html()
+  html = [op.generate_header()]
+  html.append(op.generate_movie_html_div())
   if opts.printres:
-    print html
+    print "\n".join(html)
   if opts.mailres:
     sender = get_value('sender')
     recipients = load_emails('recipients')
     ma = Mail(sender)
-    ma.mail_html(recipients, subject, html)
+    ma.mail_html(recipients, subject, "\n".join(html))
 
 if __name__ == "__main__":
   main() 
