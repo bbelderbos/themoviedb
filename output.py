@@ -34,7 +34,7 @@ class Output:
     return "<h1 style='background-color: #840015;color: #fff;'>%s</h1>" % banner
 
   def generate_category_title(self, title):
-    return self._html("h2", title)
+    return "<h2 style='background-color: #C0C0C0; color: #000; padding: 5px;'>%s</h2>" % title
 
   def generate_movie_html_div(self):
     html = []
