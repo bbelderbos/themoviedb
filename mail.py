@@ -14,7 +14,7 @@ class Mail:
     msg = MIMEMultipart('alternative')
     msg['Subject'] = subject
     msg['From'] = self.sender
-    msg['To'] = toaddr # mask bcc, so email list receivers don't see each others emails
+    msg['To'] = ", ".join(toaddr) # mask bcc, so email list receivers don't see each others emails
     part = MIMEText(content, 'html')
     msg.attach(part)
     s = smtplib.SMTP('localhost')
