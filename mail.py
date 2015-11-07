@@ -9,7 +9,7 @@ class Mail:
     self.sender = sender
 
   def mail_html(self, recipients, subject, content):
-    toaddr = "info@bobbelderbos.com"
+    toaddr = ["info@bobbelderbos.com"]
     bcc = recipients
     msg = MIMEMultipart('alternative')
     msg['Subject'] = subject
