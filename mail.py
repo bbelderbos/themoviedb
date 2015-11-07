@@ -7,14 +7,16 @@ class Mail:
     self.sender = sender
 
   def mail_html(self, recipients, subject, content):
+    toaddr = "info@bobbelderbos.com"
+    bcc = recipients
     msg = MIMEMultipart('alternative')
     msg['Subject'] = subject
     msg['From'] = self.sender
-    msg['To'] = ", ".join(recipients)
+    msg['To'] = toaddr # mask bcc, so email list receivers don't see each others emails
     part = MIMEText(content, 'html')
     msg.attach(part)
     s = smtplib.SMTP('localhost')
-    s.sendmail(self.sender, recipients, msg.as_string())
+    s.sendmail(self.sender, toaddr + bcc, msg.as_string()) 
     s.quit()
 
 if __name__ == "__main__":
