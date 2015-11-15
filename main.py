@@ -26,10 +26,10 @@ def load_emails(fname):
   
 def cli():
   parser = OptionParser()
-  parser.add_option("-a", "--actor", dest="actor", help="filter on actor")
+  parser.add_option("-a", "--actor", dest="actor", help="filter on actor (not yet implemented)")
   parser.add_option("-c", "--category", dest="category", help="category [%s]" % ", ".join(CATEGORIES))
-  parser.add_option("-d", "--director", dest="director", help="filter on director")
-  parser.add_option("-g", "--genres", dest="genres", help="filter on genres")
+  parser.add_option("-d", "--director", dest="director", help="filter on director (not yet implemented)")
+  parser.add_option("-g", "--genres", dest="genres", help="filter on genres (not yet implemented)")
   parser.add_option("-l", "--listing", dest="listing", help="create email from themoviedb list URL")
   parser.add_option("-m", "--mailres", dest="mailres", help="mail the html to recipients", action="store_true", default=False)
   parser.add_option("-n", "--numres", dest="numres", help="number of results")
