@@ -1,5 +1,7 @@
 # Project: python movie weekly email (using themoviedb API) 
 
+[Blog post](http://bobbelderbos.com/2015/11/project-weekly-movie-email-with-tmdbsimple-python/)
+
     Usage: main.py [options]
 
     Options:
