@@ -10,7 +10,7 @@ class Output:
     self.posterBaseUrl = "https://image.tmdb.org/t/p/w154" # w92
     self.imdbUrl = "http://imdb.com/title"
     self.sMovies = "http://sharemovi.es"
-    self.sMovieUrl = "%s/?movieId=" % self.sMovies
+    self.sMovieUrl = "%s/add_movie_from_email.php?id=" % self.sMovies
     self.sPersonUrl = "%s/?personId=" % self.sMovies
     self.movies = movies
     self.maxPersons = {
@@ -42,7 +42,7 @@ class Output:
       movieId = str(m["id"])
       genres = ", ".join([g["name"] for g in m["genres"]])
       imdbUrl = self._html("a", "imdb", link=os.path.join(self.imdbUrl, m["imdb_id"]))
-      sMovieUrl = self._html("a", "sharemovi.es", link=self.sMovieUrl+movieId)
+      sMovieUrl = self._html("a", "add to your sharemovi.es watchlist", link=self.sMovieUrl+movieId)
       html.append("<div id='%s'>" % movieId)
       html.append(self._html("h3", m["title"]))
       if genres:
