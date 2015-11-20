@@ -11,6 +11,7 @@ class Output:
     self.imdbUrl = "http://imdb.com/title"
     self.sMovies = "http://sharemovi.es"
     self.sMovieUrl = "%s/add_movie_from_email.php?id=" % self.sMovies
+    self.sTrailerUrl = "%s/trailer.php?id=" % self.sMovies
     self.sPersonUrl = "%s/?personId=" % self.sMovies
     self.movies = movies
     self.maxPersons = {
@@ -43,6 +44,7 @@ class Output:
       genres = ", ".join([g["name"] for g in m["genres"]])
       imdbUrl = self._html("a", "imdb", link=os.path.join(self.imdbUrl, m["imdb_id"]))
       sMovieUrl = self._html("a", "add to your sharemovi.es watchlist", link=self.sMovieUrl+movieId)
+      sTrailerUrl = self._html("a", "watch trailer", link=self.sTrailerUrl+movieId)
       html.append("<div id='%s'>" % movieId)
       html.append(self._html("h3", m["title"]))
       if genres:
@@ -52,7 +54,7 @@ class Output:
       html.append(self._html("h4", "Director: " + directors))
       html.append(self._html("h4", "Actors: " + actors))
       released = "Released: " + m["release_date"]
-      html.append(self._html("h5", released + " (" + imdbUrl + " / " + sMovieUrl + ")"))
+      html.append(self._html("h5", released + " (" + imdbUrl + " / " + sTrailerUrl + " / " + sMovieUrl + ")"))
       html.append(self._html("p", m["overview"]))
       if m["poster_path"]:
         imgPath = os.path.join(self.posterBaseUrl, m["poster_path"].strip("/"))
