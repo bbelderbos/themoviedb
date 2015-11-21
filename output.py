@@ -11,7 +11,7 @@ class Output:
     self.imdbUrl = "http://imdb.com/title"
     self.sMovies = "http://sharemovi.es"
     self.sMovieUrl = "%s/add_movie_from_email.php?id=" % self.sMovies
-    self.sTrailerUrl = "%s/trailer.php?id=" % self.sMovies
+    self.sTrailerUrl = "%s/trailer.php?id=MOVIE_ID&link_youtube" % self.sMovies
     self.sPersonUrl = "%s/?personId=" % self.sMovies
     self.movies = movies
     self.maxPersons = {
@@ -44,7 +44,7 @@ class Output:
       genres = ", ".join([g["name"] for g in m["genres"]])
       imdbUrl = self._html("a", "imdb", link=os.path.join(self.imdbUrl, m["imdb_id"]))
       sMovieUrl = self._html("a", "add to your sharemovi.es watchlist", link=self.sMovieUrl+movieId)
-      sTrailerUrl = self._html("a", "watch trailer", link=self.sTrailerUrl+movieId)
+      sTrailerUrl = self._html("a", "watch trailer", link=self.sTrailerUrl.replace("MOVIE_ID", movieId))
       html.append("<div id='%s'>" % movieId)
       html.append(self._html("h3", m["title"]))
       if genres:
