@@ -61,8 +61,11 @@ def main():
     prefix = ""
     subject = "%s movies - week %s" % (opts.category.title().replace("_", " "), THIS_WEEK)
   ca = Cache(prefix + os.path.basename(opts.category))
-  ca.shelve_results(movies)
-  movieObjects = ca.shelve_get_items(movies)
+  newMovies = ca.shelve_results(movies)
+  if opts.listing:
+    movieObjects = ca.shelve_get_items(movies) # allow dups
+  else:
+    movieObjects = ca.shelve_get_items(newMovies) # only new ones
   op = Output(movieObjects)
   html = [op.generate_header()]
   html.append(op.generate_movie_html_div())

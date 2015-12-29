@@ -22,7 +22,8 @@ def main(send=False):
     movies = td.get_movies(NUM_RES)
     ca = Cache(os.path.basename(cat))
     ca.shelve_results(movies)
-    movieObjects = ca.shelve_get_items(movies)
+    newMovies = ca.shelve_results(movies)
+    movieObjects = ca.shelve_get_items(newMovies) # only new ones
     op = Output(movieObjects)
     if html is None:
       html = [op.generate_header()]
